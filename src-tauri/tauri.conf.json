@@ -15,7 +15,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "resources": ["bin/*"],
+    "resources": ["../bin/*"],
     "windows": { "webviewInstallMode": { "type": "embedBootstrapper" } }
   }
 }
