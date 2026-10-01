@@ -48,6 +48,13 @@ jobs:
           }
           Get-ChildItem bin
 
+      - name: Prepare isolated frontend assets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item index.html dist/index.html -Force
+          Copy-Item src dist/src -Recurse -Force
+
       - name: Build Tauri application
         run: npm run tauri build
 
