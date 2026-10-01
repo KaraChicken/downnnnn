@@ -1,18 +1,1 @@
-{
-  "name": "yt-dlp-downloader",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "tauri": "tauri",
-    "dev": "tauri dev",
-    "build": "tauri build"
-  },
-  "dependencies": {
-    "@tauri-apps/api": "^2.8.0",
-    "@tauri-apps/plugin-dialog": "^2.4.0"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2.8.0"
-  }
-}
+{"name":"yt-dlp-downloader","version":"0.2.0","description":"Electron desktop GUI for yt-dlp","main":"electron/main.js","type":"commonjs","private":true,"scripts":{"dev":"electron .","start":"electron .","build":"electron-builder --win nsis msi"},"devDependencies":{"electron":"^38.1.0","electron-builder":"^26.0.12"},"build":{"appId":"com.karachicken.ytdlpdownloader","productName":"YT-DLP Downloader","asar":true,"files":["electron/**/*","index.html","src/**/*","package.json"],"extraResources":[{"from":"bin","to":"bin","filter":["**/*"]}],"win":{"target":["nsis","msi"]},"nsis":{"oneClick":false,"allowToChangeInstallationDirectory":true},"msi":{"perMachine":false}}}
