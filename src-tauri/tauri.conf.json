@@ -3,7 +3,7 @@
   "productName": "YT-DLP Downloader",
   "version": "0.1.0",
   "identifier": "com.karachicken.ytdlpdownloader",
-  "build": { "frontendDist": "../dist" },
+  "build": { "frontendDist": "../build" },
   "app": {
     "windows": [{
       "label": "main", "title": "YT-DLP Downloader",
