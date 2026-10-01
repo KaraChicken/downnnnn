@@ -1,0 +1,1 @@
+fn main() { yt_dlp_downloader_lib::run(); }
