@@ -67,23 +67,40 @@ jobs:
             src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error
 
-      - name: Publish compiled files to dist branch
+      - name: Publish clean dist branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: pwsh
         run: |
           $msi = Get-ChildItem "src-tauri/target/release/bundle/msi/*.msi" | Select-Object -First 1
           $nsis = Get-ChildItem "src-tauri/target/release/bundle/nsis/*.exe" | Select-Object -First 1
           if (-not $msi -or -not $nsis) { throw "Tauri installers were not found." }
+
+          # Save only the two compiled installers outside the repository.
+          $publishDir = Join-Path $env:RUNNER_TEMP "dist-publish"
+          Remove-Item $publishDir -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $publishDir | Out-Null
+          Copy-Item $msi.FullName (Join-Path $publishDir "YT-DLP-Downloader.msi")
+          Copy-Item $nsis.FullName (Join-Path $publishDir "YT-DLP-Downloader.exe")
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git fetch origin dist
           git checkout dist
-          Get-ChildItem -Force | Where-Object { $_.Name -notin @(".git") } | Remove-Item -Recurse -Force
-          Copy-Item $msi.FullName "YT-DLP-Downloader.msi"
-          Copy-Item $nsis.FullName "YT-DLP-Downloader.exe"
-          Set-Content -Path "README.md" -Value "# YT-DLP Downloader`r`n`r`nLatest Windows build generated from the main branch.`r`n"
-          git add -A
-          if (-not (git diff --cached --quiet)) { git commit -m "chore: update compiled Windows build"; git push origin dist }
+
+          # Completely remove everything currently tracked or untracked
+          # from the dist branch before publishing the new build.
+          git rm -r --ignore-unmatch .
+          git clean -fdx
+
+          Copy-Item (Join-Path $publishDir "YT-DLP-Downloader.msi") .
+          Copy-Item (Join-Path $publishDir "YT-DLP-Downloader.exe") .
+          Set-Content -Path "README.md" -Value ("# YT-DLP Downloader" + [Environment]::NewLine + [Environment]::NewLine + "Latest Windows build generated from the main branch." + [Environment]::NewLine)
+
+          git add --all
+          git commit -m "chore: rebuild dist artifacts"
+          git push --force origin HEAD:dist
+
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
