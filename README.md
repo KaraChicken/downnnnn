@@ -1,46 +1,36 @@
 # YT-DLP Downloader
 
-A Tauri 2 desktop GUI for yt-dlp. Frontend uses native HTML/CSS/JavaScript; Rust handles yt-dlp and FFmpeg processes.
-
-## Requirements
-
-- Node.js 20+
-- Rust stable
-- Tauri 2 prerequisites for your OS
-- yt-dlp executable
-- ffmpeg executable
-
-## Local development
-
-Put binaries in `bin/`:
-
-- Windows: `bin/yt-dlp.exe`, `bin/ffmpeg.exe`
-- macOS/Linux: `bin/yt-dlp`, `bin/ffmpeg`
-
-Then:
-
-```bash
-npm install
-npm run tauri dev
-```
-
-## Build
-
-```bash
-npm run tauri build
-```
-
-The Tauri bundle includes `bin/*` as resources.
+A lightweight Electron desktop GUI for yt-dlp, using native HTML/CSS/JavaScript.
 
 ## Features
 
-- URL analysis
-- Thumbnail/title/channel/duration
+- URL analysis with thumbnail, title, channel and duration
 - Best quality, 1080p/720p/480p/360p
 - M4A and MP3 audio extraction
 - Output directory picker
 - Live progress, speed and ETA
 - Cancel active download
 - yt-dlp logs
+- Windows NSIS .exe and .msi installers
+
+## Requirements
+
+- Node.js 20+
+- Windows for the bundled Windows build
+- bin/yt-dlp.exe
+- bin/ffmpeg.exe
+
+## Local development
+
+Put yt-dlp and FFmpeg in bin/, then run:
+
+    npm install
+    npm run dev
+
+## Build Windows installers
+
+    npm run build
+
+Electron Builder copies bin/* into the packaged application's resources.
 
 Only use the downloader for content you are authorized to download and in compliance with applicable terms and laws.
