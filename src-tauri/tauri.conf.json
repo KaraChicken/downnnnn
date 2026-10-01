@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "YT-DLP Downloader",
+  "version": "0.1.0",
+  "identifier": "com.karachicken.ytdlpdownloader",
+  "build": { "frontendDist": ".." },
+  "app": {
+    "windows": [{
+      "label": "main", "title": "YT-DLP Downloader",
+      "width": 960, "height": 820, "minWidth": 620, "minHeight": 650,
+      "resizable": true
+    }],
+    "security": { "csp": null }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "resources": ["bin/*"],
+    "windows": { "webviewInstallMode": { "type": "embedBootstrapper" } }
+  }
+}
